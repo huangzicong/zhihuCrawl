@@ -2,7 +2,7 @@
 import scrapy
 from scrapy.linkextractors import LinkExtractor
 from scrapy.spiders import CrawlSpider, Rule
-
+from requests import Request
 
 class ZhihuComSpider(CrawlSpider):
     name = 'zhihu.com'
@@ -19,3 +19,7 @@ class ZhihuComSpider(CrawlSpider):
         #i['name'] = response.xpath('//div[@id="name"]').extract()
         #i['description'] = response.xpath('//div[@id="description"]').extract()
         return i
+    def start_requests(self):
+        #进入登录界面
+        return [Request('https://zhihu.com/# signin',callback=self.start_login,mete={'cookiejar':1})]
+    
